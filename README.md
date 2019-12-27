@@ -27,6 +27,22 @@ semantic_release:
     - npx semantic-release
 ```
 
+### Github Actions
+
+To use this this image with `Github Actions` you can create a `step` which invokes the command `npx semantic-release` within the image.
+
+```yaml
+jobs:
+  semantic-release:
+      runs-on: ubuntu-18.04
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v1
+    - name: Create Version
+      uses: docker://docker.pkg.github.com/caos/semantic-release/semantic-release:latest
+      run: npx semantic-release
+```
+
 ## License
 
 As usual Apache-2.0 see [here](./LICENSE)
