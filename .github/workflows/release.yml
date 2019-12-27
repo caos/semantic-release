@@ -8,7 +8,7 @@ jobs:
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - name: Release
+    - name: Build
       shell: bash
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -16,7 +16,17 @@ jobs:
         export IMAGE=docker.pkg.github.com/caos/semantic-release/semantic-release
         export TAG_LATEST=${IMAGE}:latest
         docker build --tag ${TAG_LATEST} --file ./Dockerfile .
-
+    - uses: anchore/scan-action@master
+      with:
+        image-reference: "localbuild/testimage:latest"
+        dockerfile-path: "./Dockerfile"
+        fail-build: true
+        include-app-packages: true
+    - name: Release
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
         export GIT_TAG="v$(npx semantic-release --dry-run --plugins=@semantic-release/commit-analyzer --analize-commits | grep "The next release version is" | sed -ne 's/.*The\ next\ release\ version\ is\ \([0-9]\+\.[0-9]\+\.[0-9]\+\)$/\1/p')"
         [[ "$GIT_TAG" == "v" ]] && echo "Exiting, as no new version needs to be released" && exit 0
         export TAG_VERSION=${IMAGE}:${GIT_TAG}
