@@ -1,4 +1,6 @@
-FROM node:8
+# We use the lts-alpine as base image to reduce the size
+FROM node:lts-alpine
+RUN apk update && apk add git
 RUN npm install -g \
     semantic-release@v15.14.0 \
     @semantic-release/gitlab-config@v6.0.1 \
