@@ -1,0 +1,13 @@
+# yamls for local build
+build/k8s
+skaffold.yaml
+
+# local vscode files even when they are checked into git
+.vscode
+
+# doku files which are not needed for build
+*.md
+
+# local binaries and caches
+/bin
+/obj
