@@ -18,7 +18,7 @@ jobs:
         docker build --tag ${TAG_LATEST} --file ./Dockerfile .
     - uses: anchore/scan-action@master
       with:
-        image-reference: "localbuild/testimage:latest"
+        image-reference: "docker.pkg.github.com/caos/semantic-release/semantic-release:latest"
         dockerfile-path: "./Dockerfile"
         fail-build: true
         include-app-packages: true
