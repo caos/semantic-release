@@ -1,5 +1,7 @@
 name: Test
-on: branches
+on: 
+  push:
+    branches:
 jobs:
   release:
     runs-on: ubuntu-18.04
