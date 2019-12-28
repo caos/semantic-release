@@ -1,5 +1,5 @@
 name: Release
-on: push
+on: tags
 jobs:
   release:
     runs-on: ubuntu-18.04
