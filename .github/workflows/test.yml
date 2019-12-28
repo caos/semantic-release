@@ -1,21 +1,18 @@
 name: Test
-on: 
+on:
   push:
     branches:
+      - '*'
 jobs:
   release:
     runs-on: ubuntu-18.04
-    env:
-      IMAGE: docker.pkg.github.com/caos/semantic-release/semantic-release
     steps:
-    - name: Source checkout
-      uses: actions/checkout@v1
-    - name: Docker Build
-      shell: bash
-      run: docker build . --tag ${IMAGE}:latest
-    - uses: anchore/scan-action@master
-      with:
-        image-reference: $IMAGE
-        dockerfile-path: "./Dockerfile"
-        fail-build: true
-        include-app-packages: false
+      steps:
+      - uses: actions/checkout@v1
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag localbuild/testimage:latest
+      - uses: anchore/scan-action@master
+        with:
+          image-reference: "localbuild/testimage:latest"
+          dockerfile-path: "./Dockerfile"
+          fail-build: true
