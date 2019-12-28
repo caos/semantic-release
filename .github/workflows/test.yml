@@ -7,12 +7,11 @@ jobs:
   release:
     runs-on: ubuntu-18.04
     steps:
-      steps:
-      - uses: actions/checkout@v1
-      - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag localbuild/testimage:latest
-      - uses: anchore/scan-action@master
-        with:
-          image-reference: "localbuild/testimage:latest"
-          dockerfile-path: "./Dockerfile"
-          fail-build: true
+    - uses: actions/checkout@v1
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag localbuild/testimage:latest
+    - uses: anchore/scan-action@master
+      with:
+        image-reference: "localbuild/testimage:latest"
+        dockerfile-path: "./Dockerfile"
+        fail-build: true
