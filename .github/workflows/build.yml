@@ -14,9 +14,6 @@ jobs:
       uses: actions/checkout@v1
     - name: Docker Build
       run: docker build . --tag localbuild/image:latest
-    - name: Docker Tag & Push Branch
-      run: docker tag localbuild/image:latest $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF##*/} && \
-           docker push $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF##*/}
     - name: Scan image
       uses: anchore/scan-action@master
       with:
@@ -24,9 +21,12 @@ jobs:
         fail-build: true
     - name: Check Version
       run: echo "::set-env name=VERSION::v$(npx semantic-release | grep "The next release version is" | sed -ne 's/.*The\ next\ release\ version\ is\ \([0-9]\+\.[0-9]\+\.[0-9]\+\)$/\1/p')"
+    - name: Docker Tag & Push Branch
+      run: docker tag localbuild/image:latest $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF##*/} && \
+           docker push $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF##*/}
     - name: Docker Tag & Push Release
-      run: docker tag $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF##*/} $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:$VERSION && \
+      run: docker tag localbuild/image:latest $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:$VERSION && \
            docker push $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:$VERSION
     - name: Docker Tag & Push latest
-      run: docker tag $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF##*/} $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:latest && \
-          docker push $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:latest
+      run: docker tag localbuild/image:latest $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:latest && \
+           docker push $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:latest
