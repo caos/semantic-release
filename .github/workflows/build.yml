@@ -16,15 +16,11 @@ jobs:
     - name: Docker Build
       run: docker build . --tag localbuild/image:latest
     - name: Docker Login 
-      run: docker login docker.pkg.github.com -u ci -p ${GITHUB_TOKEN}
-    - name: Docker Tag Branch
-      run: docker tag localbuild/image:latest $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF##*/}
-    - name: Docker Push Branch
-      run: docker push $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF##*/}
+      run: docker login $REGISTRY -u ${GITHUB_ACTOR} -p ${GITHUB_TOKEN}
     - name: Docker Tag Release
-      run: docker tag localbuild/image:latest $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:$VERSION
+      run: docker tag localbuild/image:latest $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF#refs/tags/}
     - name: Docker Push Release
-      run: docker push $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:$VERSION
+      run: docker push $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF#refs/tags/}
     - name: Docker Tag Latest
       run: docker tag localbuild/image:latest $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:latest
     - name: Docker Push Latest
