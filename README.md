@@ -5,7 +5,7 @@
 
 ## What is it
 
-We often use `semantic-release` in differents `CI systems` like `Gitlab` & `Github`. In order to reduce the effort of seting up and maintaining a lot of pipelines, we use this image as starting point for `semantic-release`.
+We often use `semantic-release` in differents `CI systems` like `Gitlab` & `Github`. In order to reduce the effort of setting up and maintaining a lot of pipelines, we use this image as starting point for `semantic-release`.
 
 ## How to use
 
@@ -39,7 +39,21 @@ jobs:
     - name: Source checkout
       uses: actions/checkout@v1
     - name: Create Version
-      uses: caos/semantic-release@v0.2.0
+      uses: caos/semantic-release@v0.2.1
+```
+
+For `--dry-run` just pass the argument to substitute the `CMD` command from the image.
+
+```yaml
+jobs:
+  semantic-release:
+      runs-on: ubuntu-18.04
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v1
+    - name: Create Version
+      uses: caos/semantic-release@v0.2.1
+      args: "semantic-release --dry-run"
 ```
 
 ## License
