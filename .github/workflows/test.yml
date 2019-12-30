@@ -1,19 +1,24 @@
-name: Test
+name: Build
 on:
   push:
     branches:
-      - '*'
+      - 'dev/*'
+      - 'master'
 jobs:
   release:
     runs-on: ubuntu-18.04
-    steps:
-    - uses: actions/checkout@v1
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag localbuild/testimage:latest
-    - uses: anchore/scan-action@master
-      with:
-        image-reference: "localbuild/testimage:latest"
-        dockerfile-path: "./Dockerfile"
-        fail-build: true
-    - name: anchore inline scan JSON results
-      run: for j in `ls ./anchore-reports/*.json`; do echo "---- ${j} ----"; cat ${j}; echo; done
+    env:
+      REGISTRY: docker.pkg.github.com
+      IMAGE: semantic-release
+    steps: 
+    - name: Checkout Source
+      uses: actions/checkout@v1
+    - name: Docker Build
+      run: docker build . --file Dockerfile --tag $REGISTRY/$GITHUB_REPOSITORY/$ARTIFACT:$GITHUB_REF
+    - name: Docker Push
+      run: docker push $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:$GITHUB_REF
+    - name: Check Version
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: npx semantic-release
