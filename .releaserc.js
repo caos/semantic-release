@@ -5,7 +5,7 @@ module.exports = {
         "@semantic-release/release-notes-generator",
         "@semantic-release/github",
         ["@semantic-release/exec", {
-            "prepareCmd": "echo ${nextRelease.version}"
+            "prepareCmd": "echo '::set-env name=CAOS_NEXT_VERSION::${nextRelease.version}'"
             }],
     ]
   };

@@ -18,6 +18,8 @@ jobs:
     - name: Semantic Release
       id: semantic
       uses: cycjimmy/semantic-release-action@v2
+    - name: Echo next version
+      run: echo CAOS_NEXT_VERSION
     - name: Docker Login 
       run: docker login $REGISTRY -u ${GITHUB_ACTOR} -p ${GITHUB_TOKEN}
     - name: Docker Tag Release
