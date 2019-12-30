@@ -16,7 +16,9 @@ jobs:
     - name: Docker Build
       run: docker build . --tag localbuild/image:latest
     - name: Check Version
-      run: npx semantic-release --dry-run
+      run: |
+        npm install -g @semantic-release/exec
+        npx semantic-release --dry-run
     - name: Echo
       run: echo $VERSION
     # - name: Docker Login 
