@@ -15,4 +15,3 @@ jobs:
       run: docker build . --tag localbuild/image:latest
     - name: Check Version
       run: npx semantic-release
-
