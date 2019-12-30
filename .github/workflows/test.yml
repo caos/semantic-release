@@ -13,14 +13,15 @@ jobs:
     - name: Checkout Source
       uses: actions/checkout@v1
     - name: Docker Build
-      run: docker build . --tag $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF##*/}
-    - name: Docker Push Branch
-      run: docker push $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF##*/}
+      run: docker build . --tag localbuild/image:latest
+    - name: Docker Tag & Push Branch
+      run: docker tag localbuild/image:latest $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF##*/} && \
+           docker push $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF##*/}
       if: github.ref == 'refs/heads/master'
     - name: Scan image
       uses: anchore/scan-action@master
       with:
-        image-reference: $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF##*/}
+        image-reference: "localbuild/image:latest"
         fail-build: true
       if: github.ref == 'refs/heads/refactor-ci'
     - name: Check Version
