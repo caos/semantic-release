@@ -16,7 +16,7 @@ jobs:
     - name: Docker Build
       run: docker build . --tag localbuild/image:latest
     - name: Check Version
-      run: export VERSION="v$(npx semantic-release | grep "The next release version is" | sed -ne 's/.*The\ next\ release\ version\ is\ \([0-9]\+\.[0-9]\+\.[0-9]\+\)$/\1/p')"
+      run: echo "::set-env name=VERSION='v$(npx semantic-release | grep "The next release version is" | sed -ne 's/.*The\ next\ release\ version\ is\ \([0-9]\+\.[0-9]\+\.[0-9]\+\)$/\1/p')'"
     - name: Echo Version
       run: echo $VERSION
       # - name: Docker Login 
