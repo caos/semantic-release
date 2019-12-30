@@ -6,5 +6,5 @@ RUN npm install -g \
     @semantic-release/gitlab-config@v6.0.1 \
     @semantic-release/gitlab@v4.1.0 \
     @semantic-release/github@v5.5.8
-ENTRYPOINT ["npx", "semantic-release"]
-CMD ["--help"]
+ENTRYPOINT ["npx"]
+CMD ["semantic-release"]
