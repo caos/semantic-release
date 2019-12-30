@@ -1,8 +1,8 @@
 name: Release
 on:
   push:
-    tags:
-      - v*.*.*
+    branches:
+      - 'master'
 jobs:
   Build:
     runs-on: ubuntu-18.04
@@ -15,14 +15,17 @@ jobs:
       uses: actions/checkout@v1
     - name: Docker Build
       run: docker build . --tag localbuild/image:latest
-    - name: Docker Login 
-      run: docker login $REGISTRY -u ${GITHUB_ACTOR} -p ${GITHUB_TOKEN}
-    - name: Docker Tag Release
-      run: docker tag localbuild/image:latest $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF#refs/tags/}
-    - name: Docker Push Release
-      run: docker push $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF#refs/tags/}
-    - name: Docker Tag Latest
-      run: docker tag localbuild/image:latest $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:latest
-    - name: Docker Push Latest
-      run: docker push $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:latest
-
+    - name: Check Version
+      run: npx semantic-release --dry-run
+    - name: Echo
+      run: echo $VERSION
+    # - name: Docker Login 
+    #   run: docker login $REGISTRY -u ${GITHUB_ACTOR} -p ${GITHUB_TOKEN}
+    # - name: Docker Tag Release
+    #   run: docker tag localbuild/image:latest $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF#refs/tags/}
+    # - name: Docker Push Release
+    #   run: docker push $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:${GITHUB_REF#refs/tags/}
+    # - name: Docker Tag Latest
+    #   run: docker tag localbuild/image:latest $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:latest
+    # - name: Docker Push Latest
+    #   run: docker push $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:latest
