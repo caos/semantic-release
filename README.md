@@ -39,8 +39,9 @@ jobs:
     - name: Source checkout
       uses: actions/checkout@v1
     - name: Create Version
-      uses: docker://docker.pkg.github.com/caos/semantic-release/semantic-release:latest
-      run: npx semantic-release
+      uses: caos/semantic-release@v0.1.7
+      with:
+        args: "semantic-release --dry-run"
 ```
 
 ## License
