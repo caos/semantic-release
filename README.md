@@ -39,7 +39,7 @@ jobs:
     - name: Source checkout
       uses: actions/checkout@v1
     - name: Create Version
-      uses: caos/semantic-release@v0.2.1
+      uses: caos/semantic-release@v0.2.4
 ```
 
 For `--dry-run` just pass the argument to substitute the `CMD` command from the image.
@@ -52,8 +52,24 @@ jobs:
     - name: Source checkout
       uses: actions/checkout@v1
     - name: Create Version
-      uses: caos/semantic-release@v0.2.1
+      uses: caos/semantic-release@v0.2.4
       args: "semantic-release --dry-run"
+```
+
+If you would like to use the generated version in later steps, just use the env. var `$CAOS_NEXT_VERSION` with the `.releaserc.js` example below.
+
+```js
+module.exports = {
+    branch: 'master',
+    plugins: [
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/release-notes-generator",
+        "@semantic-release/github",
+        ["@semantic-release/exec", {
+            "prepareCmd": "echo '::set-env name=CAOS_NEXT_VERSION::${nextRelease.version}'"
+            }],
+    ]
+  };
 ```
 
 ## License
