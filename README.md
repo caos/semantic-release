@@ -39,9 +39,7 @@ jobs:
     - name: Source checkout
       uses: actions/checkout@v1
     - name: Create Version
-      uses: caos/semantic-release@v0.1.7
-      with:
-        args: "semantic-release --dry-run"
+      uses: caos/semantic-release@v0.2.0
 ```
 
 ## License
