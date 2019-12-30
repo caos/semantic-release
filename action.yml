@@ -1,0 +1,16 @@
+# action.yml
+name: 'Semantic Release Docker'
+description: 'A simple to use docker image with semantic-release installed'
+inputs:
+  npx-arguments:  # id of input
+    description: 'npx-arguments'
+    required: true
+    default: 'semantic-release'
+outputs:
+  next-version: # id of output
+    description: 'This value should hold the next version'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.npx-arguments }}
