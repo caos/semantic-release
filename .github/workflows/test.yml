@@ -1,13 +1,18 @@
-name: Test
+name: Build
 on:
   push:
-    branches-ignore:
-      - 'master'
+    branches:
+      - '*'
 jobs:
   Build:
     runs-on: ubuntu-18.04
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps: 
     - name: Checkout Source
       uses: actions/checkout@v1
     - name: Docker Build
       run: docker build . --tag localbuild/image:latest
+    - name: Check Version
+      run: npx semantic-release
+
