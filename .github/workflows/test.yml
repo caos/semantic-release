@@ -15,7 +15,7 @@ jobs:
     - name: Docker Build
       run: docker build . --tag $REGISTRY/$GITHUB_REPOSITORY/$ARTIFACT:$GITHUB_REF
     - name: Docker Push
-      if: github.ref == master
+      if: github.ref == 'master'
       run: docker push $REGISTRY/$GITHUB_REPOSITORY/$IMAGE:$GITHUB_REF
     #- name: Check Version
     #  run: npx semantic-release
