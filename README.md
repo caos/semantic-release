@@ -40,6 +40,9 @@ jobs:
       uses: actions/checkout@v1
     - name: Create Version
       uses: caos/semantic-release@v0.2.4
+    - name: Check if Version Tag is available
+      if: env.CAOS_NEXT_VERSION == 	''
+      run: exit 1   
 ```
 
 For `--dry-run` just pass the argument to substitute the `CMD` command from the image.
@@ -66,7 +69,7 @@ module.exports = {
         "@semantic-release/release-notes-generator",
         "@semantic-release/github",
         ["@semantic-release/exec", {
-            "prepareCmd": "echo '::set-env name=CAOS_NEXT_VERSION::${nextRelease.version}'"
+            "prepareCmd": "echo '::set-env name=CAOS_NEXT_VERSION::v${nextRelease.version}'"
             }],
     ]
   };
