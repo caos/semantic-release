@@ -39,10 +39,10 @@ jobs:
     - name: Source checkout
       uses: actions/checkout@v1
     - name: Create Version
-      uses: caos/semantic-release@v0.2.4
+      uses: caos/semantic-release@v1.0.0
     - name: Check if Version Tag is available
-      if: env.CAOS_NEXT_VERSION == 	''
-      run: exit 1   
+      if: env.CAOS_NEXT_VERSION == ''
+      run: exit 1
 ```
 
 For `--dry-run` just pass the argument to substitute the `CMD` command from the image.
@@ -55,7 +55,7 @@ jobs:
     - name: Source checkout
       uses: actions/checkout@v1
     - name: Create Version
-      uses: caos/semantic-release@v0.2.4
+      uses: caos/semantic-release@v1.0.0
       args: "semantic-release --dry-run"
 ```
 
